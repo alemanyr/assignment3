@@ -1,4 +1,4 @@
-arepo fo assignment 3
+repo for assignment 3
 new tokenizer that iterates through folders developer.zip
 tokenizes each file in each folder
 appends to content.txt
