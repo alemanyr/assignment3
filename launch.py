@@ -17,7 +17,8 @@ def main(inputFilePath):
 					t.tokenize(content, docID)
 					docID = docID+1
 					#time.sleep(10)
-				
+					if docID == 100:
+						break	
 	f = open("output.txt", "w+")
 	f.write(str(t.getDict()))
 	f.close()
