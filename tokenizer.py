@@ -12,15 +12,17 @@ class Tokenizer:
 	
 		soup = BeautifulSoup(content["content"], 'html.parser')
 		text_tokens = nltk.tokenize.word_tokenize(soup.get_text())
+		#TODO: convert all tokens to lowercase and remove duplicates
+		
 		for s in text_tokens:
 			if not any((c in chars) for c in s): #
 				if s not in self.inverted:
 					self.inverted[s] = [docID]
-				if s in self.inverted:
-					#self.inverted[s].append[docID]
+				if s in self.inverted: #TODO: dont append to key if docID value is already posted
+					self.inverted[s].append(docID)
 					print(s + " not in the inverted list\n")
 		print(self.inverted)			
-		time.sleep(300)
+		#time.sleep(300)
 			
 		#with open("content.txt", 'a', encoding = "utf-8") as content_file:
 		#	print("hi")	

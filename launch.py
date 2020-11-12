@@ -13,10 +13,10 @@ def main(inputFilePath):
 			if (filename.endswith('.json')):
 				with zipped.open(filename) as f:
 					content = json.loads(f.read())
-					print("tokenizing\n")
+					print("tokenizing "+ filename+ "\n")
 					t.tokenize(content, docID)
 					docID = docID+1
-					time.sleep(300)
+					time.sleep(10)
 				
 if __name__ == "__main__":
 	main(sys.argv[1])
