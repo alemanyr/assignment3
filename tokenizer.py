@@ -24,10 +24,12 @@ class Tokenizer:
 				elif (s, docID) not in self.inverted.items(): #TODO: dont append to key if docID value is already posted
 					self.inverted[s].append(docID)
 					#print(s + " not in the inverted list\n")
-		print(self.inverted)			
+		#print(self.inverted)			
 		#time.sleep(300)
 			
 		#with open("content.txt", 'a', encoding = "utf-8") as content_file:
 		#	print("hi")	
 	def getDict(self):
-		return self.inverted	
+		return self.inverted
+	def clearDict(self):
+		self.inverted = {}
