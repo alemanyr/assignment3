@@ -29,4 +29,5 @@ class Tokenizer:
 			
 		#with open("content.txt", 'a', encoding = "utf-8") as content_file:
 		#	print("hi")	
-	
+	def getDict(self):
+		return self.inverted	

@@ -16,8 +16,11 @@ def main(inputFilePath):
 					print("tokenizing "+ filename+ "\n")
 					t.tokenize(content, docID)
 					docID = docID+1
-					time.sleep(10)
+					#time.sleep(10)
 				
+	f = open("output.txt", "w+")
+	f.write(str(t.getDict()))
+	f.close()
 if __name__ == "__main__":
 	main(sys.argv[1])
 
