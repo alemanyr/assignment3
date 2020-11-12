@@ -57,9 +57,10 @@ def main(inputFilePath):
 
 				saveNum += 1
 
-			if docID % 100 == 0:
+			if docID % 50 == 0:
 				process = psutil.Process(os.getpid())
-				print("Files read: {:6} Memory usage: {:8.2f} MB".format(docID, process.memory_info()[0] / 1000000))
+				print("Files read: {:6} Percent done: {:4.2f}% Memory usage: {:8.2f} MB".format(docID, docID / inCount, process.memory_info()[0] / 1000000))
+				time.sleep(1) # so my hard drive stops making haha funny noises
 			docID += 1
 
 	f = open("output.txt", "w+")
