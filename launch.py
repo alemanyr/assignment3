@@ -4,8 +4,8 @@ import ntpath
 
 # Save 4 times, each time outputting to 16 files.
 # To look up a word we will only have to load the 4 relevant segment files
-SAVE_TIMES = 50 # number of times to save tokens to disk
-FILE_COUNT = 8 # number of files to segment output into per save
+SAVE_TIMES = 20 # number of times to save tokens to disk
+FILE_COUNT = 16 # number of files to segment output into per save
 
 # which file to write/search for a word in
 def outputFileNum(word):
@@ -68,7 +68,7 @@ def main(inputFilePath):
 
 			if docID % 200 == 0:
 				process = psutil.Process(os.getpid())
-				print("Files indexed: {:6} Percent done: {:4.2f}% Memory usage: {:8.2f} MB".format(filesTokenized, docID / inCount, process.memory_info()[0] / 1000000))
+				print("Files indexed: {:6} Percent done: {:4.2f}% Memory usage: {:8.2f} MB".format(filesTokenized, (docID / inCount) * 100, process.memory_info()[0] / 1000000))
 			docID += 1
 
 	# find index size on disk in KB
