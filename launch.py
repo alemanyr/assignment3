@@ -1,4 +1,4 @@
-import zipfile, sys, getopt, time, json, math, os, psutil
+import zipfile, sys, getopt, time, json, math, os, psutil, signal
 from tokenizer import Tokenizer
 import ntpath
 
@@ -6,6 +6,12 @@ import ntpath
 # To look up a word we will only have to load the 4 relevant segment files
 SAVE_TIMES = 20 # number of times to save tokens to disk
 FILE_COUNT = 16 # number of files to segment output into per save
+MAX_TIME_BASE = 10
+MAX_TIME_PER_MB = 10
+
+# timeout signal handler function
+def alarmHandler(sig, frame):
+        raise Exception("Timeout(if you see this, it wasn't caught correctly)")
 
 # which file to write/search for a word in
 def outputFileNum(word):
@@ -30,18 +36,36 @@ def main(inputFilePath):
 	uniqueWords = set()
 	# tokenizer
 	t = Tokenizer()	
+	# log
+	logFile = open("output/log.txt", "a")
+	# signal handler
+	signal.signal(signal.SIGALRM, alarmHandler)
+	# ctrl-c interrupt cancels the current tokenization
+	signal.signal(signal.SIGINT, alarmHandler)
 	with zipfile.ZipFile(zipFile, "r") as zipped:
 		#Determine which file counts/document IDs to save after
 		inCount = len(zipped.namelist())
 		saveTimes = [math.floor((inCount / SAVE_TIMES) * saveNum) for saveNum in range(1, SAVE_TIMES)] + [inCount - 1]
 		print("{} files, saving at file #: {}".format(inCount, saveTimes))
 
-		for filename in zipped.namelist():
-			if (filename.endswith('.json')):
-				with zipped.open(filename) as f:
-					content = json.loads(f.read())
-					#print("tokenizing " + filename)
-					t.tokenize(content, docID)
+		for zinfo in zipped.infolist():
+			if (zinfo.filename.endswith('.json')):
+				with zipped.open(zinfo) as f:
+					# set a timeout on the tokenization
+					fileSizeMB = float(zinfo.file_size) / 1000000
+					fileTimeout = MAX_TIME_BASE + int(MAX_TIME_PER_MB * fileSizeMB)
+					try:
+						signal.alarm(fileTimeout) # timeout
+						logFile.write("tokenizing " + zinfo.filename + " with timeout {}s... ".format(fileTimeout))
+						content = json.loads(f.read())
+						t.tokenize(content, docID)
+						logFile.write("DONE\n")
+					except Exception as exc:
+						logFile.write("TIMEOUT\n")
+						print("WARNING: Timed out on file {}, skipping".format(zinfo.filename))
+					finally:
+						# clear timeout
+						signal.alarm(0)
 					filesTokenized += 1
 			# Save things
 			if docID in saveTimes:
