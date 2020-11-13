@@ -1,5 +1,6 @@
 import zipfile, sys, getopt, time, json, math, os, psutil, signal
 from tokenizer import Tokenizer
+from mergesavefiles import Merger
 import ntpath
 
 # Save 4 times, each time outputting to 16 files.
@@ -100,6 +101,10 @@ def main(inputFilePath):
 	for fileName in os.listdir("output/"):
 		print("Counting output/" + fileName)
 		sizeKB += os.path.getsize("output/" + fileName) / 1000
+
+	# merge save files
+	print("Merging save files")
+	Merger.mergeSaveFiles(SAVE_TIMES, FILE_COUNT)
 
 	print("========== FINAL REPORT ==========")
 	print("Number of files indexed: {}".format(filesTokenized))
