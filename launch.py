@@ -4,8 +4,8 @@ import ntpath
 
 # Save 4 times, each time outputting to 16 files.
 # To look up a word we will only have to load the 4 relevant segment files
-SAVE_TIMES = 4 # number of times to save tokens to disk
-FILE_COUNT = 16 # number of files to segment output into per save
+SAVE_TIMES = 50 # number of times to save tokens to disk
+FILE_COUNT = 8 # number of files to segment output into per save
 
 # which file to write/search for a word in
 def outputFileNum(word):
@@ -45,15 +45,15 @@ def main(inputFilePath):
 					filesTokenized += 1
 			# Save things
 			if docID in saveTimes:
-				print("Beginning save {} of {}".format(saveNum, SAVE_TIMES))
+				print("Beginning save {} of {}".format(saveNum + 1, SAVE_TIMES))
 
 				# open output files
 				oFiles = []
 				for i in range(FILE_COUNT):
-					oFile = open("output_save{}_block{}.txt".format(saveNum, i), "a")
+					oFile = open("output/output_save{}_block{}.txt".format(saveNum, i), "a")
 					oFiles.append(oFile)
 				#save tokenizer output
-				for word, locs in t.getDict():
+				for word, locs in t.getDict().items():
 					oFiles[outputFileNum(word)].write("{} {}\n".format(word, " ".join([str(loc) for loc in locs])))
 					uniqueWords.add(word)
 				# clear tokenizer, so the next saves don't have our results included
@@ -62,14 +62,13 @@ def main(inputFilePath):
 				for oFile in oFiles:
 					oFile.close()
 
-				print("Completed save {} of {}".format(saveNum, SAVE_TIMES))
+				print("Completed save {} of {}".format(saveNum + 1, SAVE_TIMES))
 
 				saveNum += 1
 
-			if docID % 50 == 0:
+			if docID % 200 == 0:
 				process = psutil.Process(os.getpid())
 				print("Files indexed: {:6} Percent done: {:4.2f}% Memory usage: {:8.2f} MB".format(filesTokenized, docID / inCount, process.memory_info()[0] / 1000000))
-				time.sleep(1) # so my hard drive stops making haha funny noises
 			docID += 1
 
 	# find index size on disk in KB
