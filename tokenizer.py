@@ -1,3 +1,8 @@
+#Harrison Clark 85444859
+#Ron Pineda 54333410
+#Jeffrey Hutton 42773058
+#Sam Hassanzadeh 20547066
+
 import json, time, re, nltk, requests
 from bs4 import BeautifulSoup
 from simhash import Simhash

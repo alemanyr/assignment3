@@ -1,3 +1,9 @@
+#Harrison Clark 85444859
+#Ron Pineda 54333410
+#Jeffrey Hutton 42773058
+#Sam Hassanzadeh 20547066
+
+
 import zipfile, sys, getopt, time, json, math, os, psutil
 from tokenizer import Tokenizer
 from mergesavefiles import Merger
@@ -80,22 +86,16 @@ def main(inputFilePath):
                 print("Counting output/" + fileName)
                 sizeKB += os.path.getsize("output/" + fileName) / 1000
 
-<<<<<<< Updated upstream
 	# merge save files
-	print("Merging save files")
-	Merger.mergeSaveFiles(SAVE_TIMES, FILE_COUNT)
+        print("Merging save files")
+        Merger.mergeSaveFiles(SAVE_TIMES, FILE_COUNT)
 
-	print("========== FINAL REPORT ==========")
-	print("Number of files indexed: {}".format(filesTokenized))
-	print("Number of unique words: {}".format(len(uniqueWords)))
-	print("Index disk size in KB: {}".format(sizeKB))
-=======
         print("========== FINAL REPORT ==========")
         print("Number of files indexed: {}".format(filesTokenized))
         print("Number of unique words: {}".format(len(uniqueWords)))
         print("Index disk size in KB: {}".format(sizeKB))
->>>>>>> Stashed changes
 
+        
 if __name__ == "__main__":
         main(sys.argv[1])
 

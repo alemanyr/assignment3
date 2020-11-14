@@ -1,3 +1,8 @@
+#Harrison Clark 85444859
+#Ron Pineda 54333410
+#Jeffrey Hutton 42773058
+#Sam Hassanzadeh 20547066
+
 import os
 
 class Merger:
@@ -10,7 +15,7 @@ class Merger:
 			for saveTime in range(saveTimes):
 				print("Merging segment {} save {}".format(segmentNum, saveTime))
 				fileName = "output/output_save{}_block{}.txt".format(saveTime, segment)
-				curFile = open(fileName, "r")
+				curFile = open(fileName, "r", encoding='utf-8')
 				for line in curFile:
 					splitLine = line.strip("\n").split(" ")
 					if splitLine[0] in inverted.keys():
@@ -21,7 +26,7 @@ class Merger:
 				print("Removing " + fileName)
 				os.remove(fileName)
 			oFileName = "output/output_block{}.txt".format(segment)
-			oFile = open(oFileName, "w")
+			oFile = open(oFileName, "w",encoding='utf-8')
 			print("Creating merged segment {} file".format(segmentNum))
 			for word, locs in inverted.items():
 				oFile.write("{} {}\n".format(word, " ".join([str(loc) for loc in locs])))
