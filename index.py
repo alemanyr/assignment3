@@ -10,6 +10,7 @@ import zipfile, sys, getopt, time, json, math, os, psutil
 from tokenizer import Tokenizer
 from mergesavefiles import *
 from savechunking import *
+from ziptonamefile import *
 import ntpath
 
 def main(inputFilePath):
@@ -77,6 +78,10 @@ def main(inputFilePath):
 	# merge save files
 	print("Merging save files")
 	mergeSaveFiles(SAVE_TIMES, FILE_COUNT)
+
+	# generate name file
+	print("Generating name file")
+	zipToNameFile(zipFile)
 
 	# find index size on disk in KB
 	sizeKB = 0
