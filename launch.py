@@ -6,17 +6,9 @@
 
 import zipfile, sys, getopt, time, json, math, os, psutil
 from tokenizer import Tokenizer
-from mergesavefiles import Merger
+from mergesavefiles import *
+from savechunking import *
 import ntpath
-
-# Save 4 times, each time outputting to 16 files.
-# To look up a word we will only have to load the 4 relevant segment files
-SAVE_TIMES = 20 # number of times to save tokens to disk
-FILE_COUNT = 16 # number of files to segment output into per save
-
-# which file to write/search for a word in
-def outputFileNum(word):
-	return ord(word[0]) % FILE_COUNT
 
 def main(inputFilePath):
 	# clear the output folder before running
@@ -82,7 +74,7 @@ def main(inputFilePath):
 
 	# merge save files
 	print("Merging save files")
-	Merger.mergeSaveFiles(SAVE_TIMES, FILE_COUNT)
+	mergeSaveFiles(SAVE_TIMES, FILE_COUNT)
 
 	# find index size on disk in KB
 	sizeKB = 0
