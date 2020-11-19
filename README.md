@@ -18,4 +18,4 @@ to run:
 searches the relevant files for each term
 since terms are split between files, it only needs to search a small subset of files
 
-```./search.py term1 term2 term3```
+```./search.py num_results term1 term2 term3```
