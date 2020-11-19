@@ -25,7 +25,7 @@ def mergeSaveFiles(saveTimes, segmentNum):
 			print("Removing " + fileName)
 			os.remove(fileName)
 		oFileName = "output/output_block{}.txt".format(segment)
-		oFile = open(oFileName, "w",encoding='utf-8')
+		oFile = open(oFileName, "w", encoding='utf-8')
 		print("Creating merged segment {} file".format(segmentNum))
 		for word, locs in inverted.items():
 			oFile.write("{} {}\n".format(word, " ".join([str(loc) for loc in locs])))
