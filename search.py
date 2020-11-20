@@ -3,7 +3,7 @@
 import zipfile, sys, time
 from savechunking import *
 
-def termOccursIn(term, fileCount):
+def termOccursIn(term):
 	segment = outputFileNum(term)
 	oFileName = "output/output_block{}.txt".format(segment)
 	oFile = open(oFileName, "r", encoding='utf-8')
@@ -11,9 +11,9 @@ def termOccursIn(term, fileCount):
 	for line in oFile:
 		splitLine = line.strip("\n").split(" ")
 		if splitLine[0] == term:
-			return [int(fileNum) for fileNum in splitLine[1:fileCount + 1]]
+			return set([int(fileNum) for fileNum in splitLine[1:]])
 	# no result found
-	return []
+	return set()
 
 def fileNumToName(fileNum):
 	lineNum = 0
@@ -23,15 +23,21 @@ def fileNumToName(fileNum):
 				return line.strip("\n")
 			lineNum += 1
 	return "Invalid filenum"
-			
 
 def main(maxResults, terms):
 	# Start
 	start = time.perf_counter()
 
-	# Search for term
-	fileNums = termOccursIn(terms[0], maxResults)
-	for fileNum in fileNums:
+	# Search for files each term occurs in, update fileNums set via intersection(boolean AND)
+	fileNums = termOccursIn(terms[0])
+	for term in terms[1:]:
+		fileNums.intersection_update(termOccursIn(term))
+
+	# Count results
+	fileNumList = sorted(list(fileNums))[0:maxResults]
+	print("{} results, displaying {}".format(len(fileNums), len(fileNumList)))
+	# Output results
+	for fileNum in fileNumList:
 		print(fileNumToName(fileNum))
 
 	# End
