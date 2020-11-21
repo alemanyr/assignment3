@@ -57,8 +57,8 @@ def main(inputFilePath):
 					oFile = open("output/output_save{}_block{}.txt".format(saveNum, i), "a", encoding='utf-8')
 					oFiles.append(oFile)
 				#save tokenizer output
-				for word, locs in t.getDict().items():
-					oFiles[outputFileNum(word)].write("{} {}\n".format(word, " ".join([str(loc) for loc in locs])))
+				for word, info in t.getDict().items():
+					oFiles[outputFileNum(word)].write("{} {}\n".format(word, " ".join([str(loc[0]) + " " + str(loc[1]) for loc in info])))
 					uniqueWords.add(word)
 				# clear tokenizer, so the next saves don't have our results included
 				t.clearDict()
