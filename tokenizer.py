@@ -16,9 +16,9 @@ class Tokenizer:
 		#print(content["content"])
                 chars = set('@.,/:;()-_') #set of chars that dont count as tokens on their own
 		#only look through files that nltk can read
-                if 1:#content["encoding"] == "ascii" or content["encoding"] == "utf-8":
-                        #soup = BeautifulSoup(content["content"], 'html.parser')
-                        text_tokens = nltk.tokenize.word_tokenize(content)#soup.get_text())
+                if content["encoding"] == "ascii" or content["encoding"] == "utf-8":
+                        soup = BeautifulSoup(content["content"], 'html.parser')
+                        text_tokens = nltk.tokenize.word_tokenize(soup.get_text())
                         token_count = {}
                         #creates a dict of the text and their weight
                         tfidf = {}
@@ -29,7 +29,7 @@ class Tokenizer:
                                 else:
                                         token_count[word] += 1
                         #computes the tf idf score
-                        tfidf = TFIDF.computeTFIDF(token_count,content) #soup.get_text())
+                        tfidf = TFIDF.computeTFIDF(token_count,soup.get_text())
                         tokens2 = []
                         for word in tfidf.keys():
 				if word not in tokens2:
