@@ -2,11 +2,12 @@
 #Ron Pineda 54333410
 #Jeffrey Hutton 42773058
 #Sam Hassanzadeh 20547066
-
+from nltk.stem import PorterStemmer
 import json, time, re, nltk, requests
 from bs4 import BeautifulSoup
 from simhash import Simhash
 import TFIDF
+ps = PorterStemmer()
 class Tokenizer:
         def __init__(self):
                 self.inverted = {} #inverted index
@@ -30,10 +31,9 @@ class Tokenizer:
                         #computes the tf idf score
                         tfidf = TFIDF.computeTFIDF(token_count,soup.get_text())
                         tokens2 = []
-                        for word in tfidf.keys():
-                                if word not in tokens2:
-                                        tokens2.append(word)
-                        for s in tokens2:
+                        for s in tfidf.keys():
+                                if s not in tokens2:
+                                        tokens2.append(s)
                                 if not any((c in chars) for c in s): 
                                         if s not in self.inverted:
                                                 self.inverted[s] = [(docID,tfidf[s])]
