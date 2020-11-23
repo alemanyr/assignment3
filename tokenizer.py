@@ -23,7 +23,7 @@ class Tokenizer:
                         #creates a dict of the text and their weight
                         tfidf = {}
                         for word in text_tokens:
-                                word = word.lower()
+                                word = ps.stem(word.lower())
                                 if word not in token_count:
                                         token_count[word] = 0
                                 else:
