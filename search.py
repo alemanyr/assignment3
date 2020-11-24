@@ -3,6 +3,8 @@
 import zipfile, sys, time
 from savechunking import *
 scores = {}
+from nltk.stem import PorterStemmer
+ps = PorterStemmer()
 def termOccursIn(term):
         segment = outputFileNum(term)
         oFileName = "output/output_block{}.txt".format(segment)
@@ -39,9 +41,9 @@ def main(maxResults, terms):
         start = time.perf_counter()
         results = {}
 	# Search for files each term occurs in, update fileNums set via intersection(boolean AND)
-        fileNums = termOccursIn(terms[0])
+        fileNums = termOccursIn(ps.stem(terms[0]))
         for term in terms[1:]:
-                fileNums.intersection_update(termOccursIn(term))
+                fileNums.intersection_update(termOccursIn(ps.stem(term)))
         
 	# Count results
         for id in fileNums:
