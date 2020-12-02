@@ -5,6 +5,7 @@ from savechunking import *
 scores = {}
 from nltk.stem import PorterStemmer
 ps = PorterStemmer()
+fileNames = {}
 def termOccursIn(term):
         segment = outputFileNum(term)
         oFileName = "output/output_block{}.txt".format(segment)
@@ -27,19 +28,21 @@ def termOccursIn(term):
 	# no result found
         return set()
 
-def fileNumToName(fileNum):
+def genFileNames():
         lineNum = 0
         with open("output/output_filenames.txt", "r", encoding='utf-8') as NameFile:
                 for line in NameFile:
-                        if lineNum == fileNum:
-                                return line.strip("\n")
+                        fileNames[lineNum] = line.strip("\n")
                         lineNum += 1
-        return "Invalid filenum"
+
+def fileNumToName(fileNum):
+	return fileNames[fileNum]
 
 def main(maxResults, terms):
 	# Start
         start = time.perf_counter()
         results = {}
+        genFileNames()
 	# Search for files each term occurs in, update fileNums set via intersection(boolean AND)
         fileNums = termOccursIn(ps.stem(terms[0]))
         for term in terms[1:]:
